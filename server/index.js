@@ -1,29 +1,29 @@
 var express = require('express');
+var path = require('path');
+var dotenv = require('dotenv').config({
+  path: path.join(__dirname, '.env')
+})
 var bodyParser = require('body-parser');
-// UNCOMMENT THE DATABASE YOU'D LIKE TO USE
-// var items = require('../database-mysql');
-// var items = require('../database-mongo');
+var places = require('../database-mongo');
 
 var app = express();
 
-// UNCOMMENT FOR REACT
-// app.use(express.static(__dirname + '/../react-client/dist'));
+app.use(express.static(__dirname + '/../react-client/dist'));
 
-// UNCOMMENT FOR ANGULAR
-// app.use(express.static(__dirname + '/../angular-client'));
-// app.use(express.static(__dirname + '/../node_modules'));
+// app.get('/places', function (req, res) {
+//   places.selectAllPlaces().then((data) => {
+//     return res.json(data);
+//   }).catch((err) =>
+//     console.log('err', err));
+// });
 
-app.get('/items', function (req, res) {
-  items.selectAll(function(err, data) {
-    if(err) {
-      res.sendStatus(500);
-    } else {
-      res.json(data);
-    }
-  });
+app.get('/points', function (req, res) {
+  places.fetchPoints().then((data) => {
+    return res.json(data);
+  }).catch((err) =>
+    console.log('err', err));
 });
 
-app.listen(3000, function() {
+app.listen(3000, function () {
   console.log('listening on port 3000!');
 });
-
