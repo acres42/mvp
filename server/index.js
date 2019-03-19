@@ -10,12 +10,12 @@ var app = express();
 
 app.use(express.static(__dirname + '/../react-client/dist'));
 
-// app.get('/places', function (req, res) {
-//   places.selectAllPlaces().then((data) => {
-//     return res.json(data);
-//   }).catch((err) =>
-//     console.log('err', err));
-// });
+app.get('/places', function (req, res) {
+  places.getAllPlacesInfo().then((data) => {
+    return res.json(data);
+  }).catch((err) =>
+    console.log('err', err));
+});
 
 app.get('/points', function (req, res) {
   places.fetchPoints().then((data) => {

@@ -20,7 +20,6 @@ export class MapContainer extends Component {
   render() {
     const google = window.google;
     const markers = this.state.markerObjects;
-    console.log("markers", markers);
     return (
       <Map
         google={this.props.google}

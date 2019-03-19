@@ -32,6 +32,35 @@ var selectAllPlaces = async function () {
   return query.exec();
 };
 
+var getAllPlacesInfo = async function () {
+  var zips = await selectAllPlaces();
+  var places = [];
+  if (zips.length > 0) {
+    zips.forEach((zip) => {
+      places.push(getLocInfo(zip.zip).then((result) => {
+        if (result !== null) {
+          return result;
+        }
+      }));
+    });
+  }
+  var resolvedPlaces = await Promise.all(places);
+  var cleaned = [];
+  resolvedPlaces.forEach((item) => {
+    if (item) {
+      cleaned.push(item);
+    }
+  })
+  return cleaned;
+}
+
+var getLocInfo = function (zip) {
+  let query = Zip.findById({
+    _id: zip
+  });
+  return query.exec();
+}
+
 var getLocByZip = async function (zip) {
   let query = Zip.findById({
     _id: zip
@@ -47,8 +76,7 @@ var fetchPoints = async function () {
     zips.forEach((zip) => {
       points.push(getLocByZip(zip.zip).then((result) => {
         if (result) {
-          // console.log(result.loc);
-          return result.loc
+          return result.loc;
         }
       }));
     });
@@ -71,3 +99,4 @@ module.exports = db;
 module.exports.selectAllItems = selectAllItems;
 module.exports.selectAllPlaces = selectAllPlaces;
 module.exports.fetchPoints = fetchPoints;
+module.exports.getAllPlacesInfo = getAllPlacesInfo;

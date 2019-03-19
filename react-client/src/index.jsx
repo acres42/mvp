@@ -17,12 +17,12 @@ class App extends React.Component {
     this.fetchPoints = this.fetchPoints.bind(this);
   }
 
-  loadPlaces() {
+  fetchPoints() {
     axios
-      .get("/places")
+      .get("/points")
       .then(data => {
         this.setState({
-          places: data
+          points: data
         });
       })
       .catch(err => {
@@ -30,12 +30,12 @@ class App extends React.Component {
       });
   }
 
-  fetchPoints() {
+  loadPlaces() {
     axios
-      .get("/points")
-      .then(data => {
+      .get("/places")
+      .then(result => {
         this.setState({
-          points: data
+          places: result.data
         });
       })
       .catch(err => {
